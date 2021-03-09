@@ -1,0 +1,334 @@
+basePath: /
+definitions:
+  models.Comments:
+    properties:
+      body:
+        type: string
+      email:
+        type: string
+      id:
+        type: number
+      name:
+        type: string
+      postId:
+        type: number
+    type: object
+  models.Post:
+    properties:
+      body:
+        type: string
+      comment:
+        items:
+          $ref: '#/definitions/models.Comments'
+        type: array
+      id:
+        type: number
+      title:
+        type: string
+      userId:
+        type: number
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is an implementation of my api server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API for trainee exercise
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: all posts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Post'
+            type: array
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Show all post
+      tags:
+      - Posts
+  /authorisation:
+    get:
+      deprecated: true
+      description: Entering login and pass into authorisation form
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Authorisation form
+      tags:
+      - User
+  /authorisationPost:
+    post:
+      consumes:
+      - application/json
+      description: Creating cookie, set IsAuthorize as true
+      parameters:
+      - description: inputEmail
+        in: query
+        name: inputEmail
+        required: true
+        type: string
+      - description: inputPassword
+        in: query
+        name: inputPassword
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Authorisation process
+      tags:
+      - User
+  /deletePost/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete post by ID
+      parameters:
+      - description: post id
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "403":
+          description: not registered
+          schema:
+            type: string
+        "404":
+          description: not found
+          schema:
+            type: string
+      summary: Delete one post with id specified
+      tags:
+      - Posts
+  /logout:
+    get:
+      description: removing cookie, set IsAuthorize as false
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Log out, remove authorisation
+      tags:
+      - User
+  /post:
+    get:
+      consumes:
+      - application/json
+      deprecated: true
+      description: Form for creation new post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - text/xml
+      responses:
+        "200":
+          description: success - redirect to save post
+          schema:
+            type: string
+        "403":
+          description: not registered
+          schema:
+            type: string
+        "404":
+          description: not found
+          schema:
+            type: string
+      summary: Form for creation new post
+      tags:
+      - Posts
+  /post/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get post by ID
+      parameters:
+      - description: post id
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Post'
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Show single post with id specified
+      tags:
+      - Posts
+  /postUpdate/{id}:
+    get:
+      consumes:
+      - application/json
+      deprecated: true
+      description: Get post and edit it
+      parameters:
+      - description: post id
+        in: path
+        name: id
+        required: true
+        type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success - redirect to save post
+          schema:
+            type: string
+        "403":
+          description: not registered
+          schema:
+            type: string
+        "404":
+          description: not found
+          schema:
+            type: string
+      summary: Form for updating post
+      tags:
+      - Posts
+  /registration:
+    get:
+      consumes:
+      - application/json
+      deprecated: true
+      description: Creating user, cookie, set IsAuthorize as true
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Registration form
+      tags:
+      - User
+  /registrationPost:
+    post:
+      consumes:
+      - application/json
+      description: Creating user, cookie, set IsAuthorize as true
+      parameters:
+      - description: inputEmail
+        in: query
+        name: inputEmail
+        required: true
+        type: string
+      - description: inputPassword
+        in: query
+        name: inputPassword
+        required: true
+        type: string
+      - description: UserName
+        in: query
+        name: inputName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Registration process
+      tags:
+      - User
+  /savePost:
+    post:
+      consumes:
+      - application/json
+      description: Save post to db
+      parameters:
+      - description: post id
+        in: query
+        name: id
+        type: string
+      - description: post title
+        in: query
+        name: title
+        type: string
+      - description: post body
+        in: query
+        name: body
+        type: string
+      - description: post UserId
+        in: query
+        name: userId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success - redirect to index
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Save new or updated post
+      tags:
+      - Posts
+swagger: "2.0"
