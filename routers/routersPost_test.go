@@ -4,57 +4,56 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-//"fmt"
-"bytes"
+	//"fmt"
+	"bytes"
 	"github.com/labstack/echo"
 	"github.com/stretchr/testify/assert"
 	"siteNoTemplate/models"
 	//"strings"
 )
 
-type 	PostsModelStub struct{}
-
+type PostsModelStub struct{}
 
 func (u *PostsModelStub) FindAll() []models.Post {
 	posts := []models.Post{}
-	posts = append (posts, models.Post{
-	UserId:1,
-	Id:1,
-	Title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-	Body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+	posts = append(posts, models.Post{
+		UserId: 1,
+		Id:     1,
+		Title:  "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+		Body:   "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
 	})
 	return posts
 }
 
 func (u *PostsModelStub) FindByID(id float64) models.Post {
 	return models.Post{
-		UserId:1,
-       	Id:1,
-       	Title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-       	Body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
-       	}
+		UserId: 1,
+		Id:     1,
+		Title:  "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+		Body:   "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+	}
 
 }
 func (u *PostsModelStub) SaveByID(post models.Post) models.Post {
-//fmt.Println(post)
-return models.Post{
-		UserId:1,
-       	Id:1,
-       	Title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-       	Body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
-       	}
+	//fmt.Println(post)
+	return models.Post{
+		UserId: 1,
+		Id:     1,
+		Title:  "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+		Body:   "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+	}
 }
 
-func (u *PostsModelStub) DeleteByID(id float64) []models.Post  {
+func (u *PostsModelStub) DeleteByID(id float64) []models.Post {
 	posts := []models.Post{}
-	posts = append (posts, models.Post{
-	UserId:1,
-	Id:1,
-	Title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-	Body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+	posts = append(posts, models.Post{
+		UserId: 1,
+		Id:     1,
+		Title:  "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+		Body:   "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
 	})
 	return posts
-	}
+}
 
 func TestGetIndex(t *testing.T) {
 	e := echo.New()
@@ -93,7 +92,7 @@ func TestGetDetail(t *testing.T) {
 }
 
 func TestSaveByID(t *testing.T) {
-var jsonStr = []byte(`{"UserId": 1, "Id": 1, "Title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"}`)
+	var jsonStr = []byte(`{"UserId": 1, "Id": 1, "Title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"}`)
 
 	e := echo.New()
 	req := httptest.NewRequest(echo.POST, "/", bytes.NewBuffer(jsonStr))
@@ -109,31 +108,30 @@ var jsonStr = []byte(`{"UserId": 1, "Id": 1, "Title": "sunt aut facere repellat 
 	h := NewHandler(u)
 
 	var postJSON = `{"UserId":1,"Id":1,"Title":"sunt aut facere repellat provident occaecati excepturi optio reprehenderit","body":"quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto","Comment":null}`
- 	if assert.NoError(t, h.SavePost(c)) {
+	if assert.NoError(t, h.SavePost(c)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 		assert.Equal(t, postJSON, rec.Body.String())
 	}
 }
 
-
 func TestDeleteByID(t *testing.T) {
-var jsonStr = []byte(`[{"UserId": 1, "Id": 1, "Title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", "Body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"}]`)
+	var jsonStr = []byte(`[{"UserId": 1, "Id": 1, "Title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", "Body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"}]`)
 
 	e := echo.New()
-    	req := httptest.NewRequest(echo.DELETE, "/", bytes.NewBuffer(jsonStr))
-    	rec := httptest.NewRecorder()
-    	c := e.NewContext(req, rec)
-    	c.SetPath("/deletePost/:id")
-    	c.SetParamNames("id")
-    	c.SetParamValues("1")
+	req := httptest.NewRequest(echo.DELETE, "/", bytes.NewBuffer(jsonStr))
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	c.SetPath("/deletePost/:id")
+	c.SetParamNames("id")
+	c.SetParamValues("1")
 
-    	u := &PostsModelStub{}
-    	h := NewHandler(u)
+	u := &PostsModelStub{}
+	h := NewHandler(u)
 
-    	var postJSON = "[]\n"
+	var postJSON = "[]\n"
 
-    	if assert.NoError(t, h.DeletePost(c)) {
-    		assert.Equal(t, http.StatusOK, rec.Code)
-    		assert.Equal(t, postJSON, rec.Body.String())
-    	}
-    }
+	if assert.NoError(t, h.DeletePost(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, postJSON, rec.Body.String())
+	}
+}

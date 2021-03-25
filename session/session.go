@@ -1,17 +1,17 @@
 package session
+
 import (
-    "site/utils"
-    "fmt"
+	"fmt"
+	"site/utils"
 )
 
 type sessionData struct {
-	Username string
+	Username     string
 	IsAuthorized bool
 }
 
 type Session struct {
 	data map[string]*sessionData
-
 }
 
 func NewSession() *Session {
@@ -27,7 +27,7 @@ func (s *Session) Init(username string) string {
 
 	data := &sessionData{Username: username, IsAuthorized: true}
 	s.data[sessionId] = data
-fmt.Println(data.IsAuthorized)
+	fmt.Println(data.IsAuthorized)
 	return sessionId
 }
 func (s *Session) Get(sessionId string) string {
