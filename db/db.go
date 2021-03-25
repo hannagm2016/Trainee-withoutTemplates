@@ -3,11 +3,12 @@ package db
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"site/config"
 )
 
 func DBConnect() *gorm.DB {
 
-	dsn := "mysql:mysql@tcp(127.0.0.1:3306)/articles?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := config.Dbconfig ()
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
