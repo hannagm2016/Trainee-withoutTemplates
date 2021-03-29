@@ -1,0 +1,7 @@
+{
+    "User": "mysql",
+    "Password": "mysql",
+    "Protocol": "tcp",
+    "Address": "127.0.0.1:3306",
+    "Dbname": "articles"
+}

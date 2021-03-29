@@ -1,7 +1,6 @@
 package models
 
-type BaseModel struct{
-    IsAuthorized bool
-    Posts []Post
-
+type BaseModel struct {
+	IsAuthorized bool
+	Posts        []Post
 }
